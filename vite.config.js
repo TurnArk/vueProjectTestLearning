@@ -29,7 +29,10 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@/styles/element/index.scss";` // 确保这个路径是正确的
+        additionalData: `
+          @use "@/styles/element/index.scss" as *;
+          @use "@/styles/var.scss" as *;
+        ` // 确保这个路径是正确的
       }
     }
   }
