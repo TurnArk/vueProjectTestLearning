@@ -1,5 +1,4 @@
 import httpInstance from '@/utils/http.js'
-
 //获取banner
 
 export function getBannerAPI(){
@@ -26,5 +25,15 @@ export const findNewAPI = () => {
 export const getHotAPI = () => {
   return  httpInstance({
     url:'/home/hot'
+  })
+}
+/**
+ * @description: 获取所有商品模块
+ * @param {*}
+ * @return {*}
+ */
+export const getGoodsAPI = () => {
+  return httpInstance({
+    url: '/home/goods'
   })
 }
