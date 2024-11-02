@@ -1,8 +1,5 @@
 <template>
   <RouterView/>
-  <div class="test">
-    test scss
-  </div>
 </template>
 
 <script setup>
