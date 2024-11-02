@@ -1,7 +1,7 @@
 <script setup>
 import {getCategoryFilterAPI,getSubCategoryAPI} from "@/apis/category.js";
 import {ref,onMounted} from "vue";
-import {useRoute} from "vue-router";
+import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import GoodsItem from "@/views/Home/components/GoodsItem.vue";
 
 //获取面包屑导航数据
@@ -29,6 +29,23 @@ const getGoodList=async ()=>{
   goodList.value=res.result.items
 }
 onMounted(()=>getGoodList())
+const tabChange=()=>{
+  reqData.value.page=1
+  disabled.value=false
+  getGoodList()
+}
+
+//加载更多
+const disabled =ref(false)
+
+const load=async ()=>{
+  reqData.value.page++
+  const res=await getSubCategoryAPI(reqData.value)
+  goodList.value=[...goodList.value,...res.result.items]
+  if(res.result.items.length===0){
+    disabled.value=true
+  }
+}
 </script>
 
 <template>
@@ -43,12 +60,12 @@ onMounted(()=>getGoodList())
       </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <el-tabs>
+      <el-tabs v-model="reqData.sortField" @tab-change="tabChange">
         <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+      <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
         <!-- 商品列表-->
         <GoodsItem v-for="goods in goodList" :good="goods" :key="goods.id"/>
       </div>
