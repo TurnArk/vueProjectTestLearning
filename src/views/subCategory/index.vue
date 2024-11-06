@@ -1,7 +1,7 @@
 <script setup>
 import {getCategoryFilterAPI,getSubCategoryAPI} from "@/apis/category.js";
 import {ref,onMounted} from "vue";
-import {onBeforeRouteUpdate, useRoute} from "vue-router";
+import {useRoute} from "vue-router";
 import GoodsItem from "@/views/Home/components/GoodsItem.vue";
 
 //获取面包屑导航数据
